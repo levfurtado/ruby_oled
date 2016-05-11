@@ -1,0 +1,52 @@
+require 'bundler/setup'
+require 'SSD1306'
+$disp = SSD1306::Display.new(protocol: :i2c, path: '/dev/i2c-1', address: 0x3C, width: 128, height: 32)
+
+class Bitmap
+  attr_accessor :content, :x, :y
+end
+#draws bitmaps from hex or dec arrays
+def draw_bitmap(bmp)
+  $disp.cursor.x_pos = bmp.x
+  $disp.cursor.y_pos = bmp.y
+  i = 0
+  for strip in bmp.content
+    $disp.buffer[$disp.cursor.buffer_index + i] = strip
+    i = i + 1
+  end
+end
+$disp.clear!
+
+omega = Bitmap.new
+omega.content = [ 0x9C, 0xBE, 0xC3, 0x01, 0x01, 0xC3, 0xBE, 0x9C ]
+omega.x = 5
+omega.y = 5
+draw_bitmap(omega)
+
+full_batt = Bitmap.new
+full_batt.content = [ 0xFF, 0x81, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0x81, 0xFF, 0x3C ]
+full_batt.x = 112
+full_batt.y = 0
+draw_bitmap(full_batt)
+
+high_batt = Bitmap.new
+high_batt.content = [ 0xFF, 0x81, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0x81, 0x81, 0x81, 0x81, 0xFF, 0x3C ]
+high_batt.x = 112
+high_batt.y = 0
+# draw_bitmap(high_batt)
+
+low_batt = Bitmap.new
+low_batt.content = [ 0xFF, 0x81, 0xBD, 0xBD, 0xBD, 0xBD, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0xFF, 0x3C ]
+low_batt.x = 112
+low_batt.y = 0
+# draw_bitmap(low_batt)
+
+empty_batt = Bitmap.new
+empty_batt.content = [ 0xFF, 0x81, 0xBD, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0xFF, 0x3C ]
+empty_batt.x = 112
+empty_batt.y = 0
+# draw_bitmap(empty_batt)
+
+$disp.display!
+
+binding.pry

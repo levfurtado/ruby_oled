@@ -1,0 +1,22 @@
+GIT
+  remote: https://github.com/zeiv/SSD1306-ruby.git
+  revision: 73b687fa54579da96ef27dcf6984cdd8302ad750
+  specs:
+    SSD1306 (0.5.1)
+      i2c (>= 0.4.0)
+      rmagick (~> 2.14)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    i2c (0.4.0)
+    rmagick (2.15.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  SSD1306!
+
+BUNDLED WITH
+   1.11.2
